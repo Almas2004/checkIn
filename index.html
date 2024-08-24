@@ -152,7 +152,7 @@
             {"ID":47,"ИО гостя":"Асель Ерболатовна","Unnamed: 2":null},
             {"ID":48,"ИО гостя":"Марат Куралгалиевич","Unnamed: 2":null},
             {"ID":49,"ИО гостя":"Алмат Алмасович","Unnamed: 2":null},
-            {"ID":50,"ИО гостя":"Нурбек Тулегенович","Unnamed: 2":null},
+            {"ID":50,"ИО гостя":"Дархан Серикович","Unnamed: 2":null},
             {"ID":51,"ИО гостя":"Нариман","Unnamed: 2":null},
             {"ID":52,"ИО гостя":"Андрей Владимирович","Unnamed: 2":null},
             {"ID":53,"ИО гостя":"Айгуль Шаховна","Unnamed: 2":null},
@@ -221,15 +221,24 @@
             {"ID":116,"ИО гостя":"Амантаев Досбол Маратович","Unnamed: 2":null}
         ];
 
-        const guestNameElement = document.getElementById('guest-name');
-
-        // Функция для поиска гостя по имени
-        function findGuestByName(name) {
-            return guests.find(guest => guest["ИО гостя"] === name);
+        // Функция для получения параметра ID из URL
+        function getIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
         }
 
-        // Пример: проверка гостя "Нариман Турегалиевич"
-        const guest = findGuestByName("Нариман Турегалиевич");
+        // Функция для поиска гостя по ID
+        function findGuestById(id) {
+            return guests.find(guest => guest.ID == id);
+        }
+
+        // Получение ID из URL
+        const guestId = getIdFromUrl();
+
+        // Поиск гостя по ID
+        const guest = findGuestById(guestId);
+
+        const guestNameElement = document.getElementById('guest-name');
 
         if (guest) {
             guestNameElement.innerText = `Здравствуйте, ${guest["ИО гостя"]}`;
@@ -241,10 +250,32 @@
             const isFriend = document.getElementById('friend-checkbox').checked;
             if (guest) {
                 alert(`Гость: ${guest["ИО гостя"]}, Друг: ${isFriend ? 'Да' : 'Нет'}`);
-            } else {
-                alert("Гость не найден");
+                // Отправка данных в Google Sheets
+                sendDataToGoogleSheets(guest, isFriend);
             }
         });
+
+        function sendDataToGoogleSheets(guest, isFriend) {
+            const data = {
+                guestName: guest["ИО гостя"],
+                isFriend: isFriend
+            };
+
+            const scriptURL = 'ВАШ_URL_СЦЕНАРИЯ_GOOGLE_SHEETS';
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => response.json())
+            .then(response => {
+                alert('Данные успешно отправлены');
+            })
+            .catch(error => {
+                console.error('Ошибка отправки данных:', error);
+            });
+        }
     </script>
 </body>
 </html>
