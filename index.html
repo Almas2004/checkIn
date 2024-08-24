@@ -105,6 +105,14 @@
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const guestId = urlParams.get('id');  // Получаем ID из URL
+            const guestName = "Guest Name"; // Здесь вы должны подставить реальное имя гостя
+            const isFriend = document.getElementById('friend-checkbox').checked;
+            
+            const data = {
+                id: guestId,
+                fullname: guestName,
+                status: isFriend ? "Friend" : "Not Friend"
+            };
         
             // Загружаем список гостей из таблицы (например, через JSON API)
             fetch('https://script.google.com/macros/s/AKfycbxyIIkTvxSfNqiwKUA8SZaXCs538-zhREi3dzkidiBicb-yHtc6vx73pbGfBYbazGwc/exec', {
@@ -112,7 +120,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: guestId, fullname: guest.fullname, status })
+                body: JSON.stringify(data)
             })
             .then(response => response.text())
             .then(result => {
@@ -123,9 +131,7 @@
                 console.error('Ошибка:', error);
                 alert('Ошибка отправки');
             });
-
         }
-
         
     </script>
 </body>
