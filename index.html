@@ -110,11 +110,11 @@
             fetch('guests.json')
                 .then(response => response.json())
                 .then(data => {
-                    // Ищем гостя по ID (обрати внимание на ключ "ID")
-                    const guest = data.find(g => g.ID == guestId);  // Учитываем, что ID в JSON - это число
+                    // Ищем гостя по ID
+                    const guest = data.find(g => String(g.ID) === guestId);  // Убедитесь, что ID приведен к строке
         
                     if (guest) {
-                        // Отображаем Имя и Отчество гостя (ключ "ИО гостя")
+                        // Отображаем полное имя
                         document.getElementById('guest-name').textContent = guest["ИО гостя"];
         
                         // Обработка нажатия кнопки "Отправить"
@@ -123,16 +123,20 @@
                             const status = isFriend ? 'Друг' : 'Пришел';
         
                             // Отправляем данные на Google Sheets
-                            fetch('https://script.google.com/macros/s/AKfycbyBlB7dFnl1XITqWxvMR6Paomo467WGs8pFN0JJ28M6PO9cdb9VTf1yQmwu4IwU4A/exec', {
+                            fetch('https://script.google.com/macros/s/AKfycbzFs220vk5QKKleoyTXe0EXjG2Z1jKeHkt7K3WgFB8LGsUWcR6XW0EXs-bPru6BguBO/exec', {
                                 method: 'POST',
-                                mode: 'no-cors',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({ id: guestId, fullname: guest["ИО гостя"], status })
-                            }).then(() => {
+                            })
+                            .then(response => response.text())  // Получаем текст ответа для отладки
+                            .then(result => {
+                                console.log('Response:', result);  // Логируем результат
                                 alert('Данные отправлены');
-                            }).catch(() => {
+                            })
+                            .catch(error => {
+                                console.error('Ошибка:', error);
                                 alert('Ошибка отправки');
                             });
                         });
@@ -144,6 +148,7 @@
                     console.error('Ошибка загрузки данных гостей:', error);
                 });
         }
+
         
     </script>
 </body>
