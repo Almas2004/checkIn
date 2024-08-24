@@ -107,46 +107,23 @@
             const guestId = urlParams.get('id');  // Получаем ID из URL
         
             // Загружаем список гостей из таблицы (например, через JSON API)
-            fetch('guests.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Ищем гостя по ID
-                    const guest = data.find(g => String(g.ID) === guestId);  // Убедитесь, что ID приведен к строке
-        
-                    if (guest) {
-                        // Отображаем полное имя
-                        document.getElementById('guest-name').textContent = guest["ИО гостя"];
-        
-                        // Обработка нажатия кнопки "Отправить"
-                        document.getElementById('submit-btn').addEventListener('click', () => {
-                            const isFriend = document.getElementById('friend-checkbox').checked;
-                            const status = isFriend ? 'Друг' : 'Пришел';
-        
-                            // Отправляем данные на Google Sheets
-                            fetch('https://script.google.com/macros/s/AKfycbzHWPv8kDxXZcVEK-GJZnm4krr-RHhIziPToOXNFNSy66FTb2dOd6jOPgftgM9MqdOv/exec', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ id: guestId, fullname: guest["ИО гостя"], status })
-                            })
-                            .then(response => response.text())  // Получаем текст ответа для отладки
-                            .then(result => {
-                                console.log('Response:', result);  // Логируем результат
-                                alert('Данные отправлены');
-                            })
-                            .catch(error => {
-                                console.error('Ошибка:', error);
-                                alert('Ошибка отправки');
-                            });
-                        });
-                    } else {
-                        alert('Гость не найден');
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка загрузки данных гостей:', error);
-                });
+            fetch('https://script.google.com/macros/s/AKfycbxyIIkTvxSfNqiwKUA8SZaXCs538-zhREi3dzkidiBicb-yHtc6vx73pbGfBYbazGwc/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: guestId, fullname: guest.fullname, status })
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log('Response:', result);
+                alert('Данные отправлены');
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Ошибка отправки');
+            });
+
         }
 
         
