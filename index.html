@@ -226,11 +226,6 @@
         const isFriend = document.getElementById('friend-checkbox').checked;
         const isGuestChecked = document.getElementById('guest-checkbox').checked;
 
-        if (!isGuestChecked) {
-            alert("Пожалуйста, подтвердите, что вы гость.");
-            return;
-        }
-
         const guestData = {
             id: guestID,
             guestName: guest['ИО гостя'],
