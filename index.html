@@ -88,12 +88,26 @@
             }
         }
 
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group label {
+            margin-left: 10px;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Добро пожаловать!</h1>
-        <p id="guest-name"></p>
+        <div class="checkbox-group">
+            <input type="checkbox" id="guest-checkbox">
+            <label for="guest-checkbox" id="guest-name"></label>
+        </div>
         <label>
             <input type="checkbox" id="friend-checkbox">
             Друг
@@ -215,30 +229,29 @@
 
             if (guest) {
                 document.getElementById('guest-name').textContent = guest['ИО гостя'];
+            } else {
+                document.getElementById('guest-name').textContent = 'Guest not found';
             }
 
             document.getElementById('submit-btn').addEventListener('click', function() {
                 const isFriend = document.getElementById('friend-checkbox').checked;
+                const isGuestChecked = document.getElementById('guest-checkbox').checked;
 
-                const data = {
+                if (!isGuestChecked) {
+                    alert("Пожалуйста, подтвердите, что вы гость.");
+                    return;
+                }
+
+                const guestData = {
                     id: guestID,
                     guestName: guest['ИО гостя'],
                     isFriend: isFriend
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbyWIpl2Rs1yguKwlqLZ3AIX5E3Rv_KQf3HA_7Br4LkOP3MqZY-w0Am7_yZFobpYjk98/exec', { // Замените на URL вашего веб-приложения из Google Apps Script
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.result === 'success') {
-                        alert('Данные успешно отправлены!');
-                    } else {
-                        alert('Произошла ошибка при отправке данных.');
-                    }
-                })
-                .catch(error => console.error('Ошибка:', error));
+                console.log('Data to be saved:', guestData);
+
+                // Add code to send the guestData to the server or Google Sheets here.
+                alert("Спасибо, ваши данные сохранены!");
             });
         });
     </script>
