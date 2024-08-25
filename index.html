@@ -69,6 +69,10 @@
             width: 100%;
         }
 
+        .ff {
+            display: flex;
+        }
+
         .submit-button:hover {
             background-color: #333333;
         }
@@ -93,8 +97,10 @@
 <body>
     <div class="container">
         <h1>Добро пожаловать!</h1>
-        <input type="checkbox" id="guest-checkbox">
-        <p id="guest-name"></p>
+        <div class="ff">
+            <input type="checkbox" id="guest-checkbox">
+            <p id="guest-name"></p>
+        </div>
         <label>
             <input type="checkbox" id="friend-checkbox">
             Друг
@@ -229,7 +235,7 @@
                     isFriend: isFriend
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbyWIpl2Rs1yguKwlqLZ3AIX5E3Rv_KQf3HA_7Br4LkOP3MqZY-w0Am7_yZFobpYjk98/exec', { // Замените на URL вашего веб-приложения из Google Apps Script
+                fetch('https://script.google.com/macros/s/AKfycby7MGRwnqwDDyQkGLci6ZCCptkh7PvPgVbOmW2D1DPh7cZx1yUBLgaACYo0ClXW8CFh/exec', { // Замените на URL вашего веб-приложения из Google Apps Script
                     method: 'POST',
                     body: JSON.stringify(data)
                 })
