@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация Гостей</title>
+    <title>Check-in Guests</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,12 +27,7 @@
             text-align: center;
         }
 
-        #patronymic, #name {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        h1, h2 {
+        h1 {
             color: #333;
             margin-bottom: 20px;
         }
@@ -48,11 +43,8 @@
             display: block;
         }
 
-        input[type="text"],
         input[type="checkbox"] {
-            padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #000000;
             border-radius: 5px;
             font-size: 16px;
             box-sizing: border-box;
@@ -69,7 +61,7 @@
             width: 100%;
         }
 
-        .submit-button:hover {
+        #submit-btn:hover {
             background-color: #333333;
         }
 
@@ -82,7 +74,7 @@
                 font-size: 14px;
             }
 
-            .submit-button {
+            #submit-btn {
                 font-size: 16px;
                 padding: 10px 18px;
             }
@@ -94,93 +86,51 @@
         <h1>Добро пожаловать</h1>
         <p id="guest-name"></p>
         <label>
-            <input type="checkbox" id="friend-checkbox">
-            Друг
+            <input type="checkbox" id="friend-checkbox"> Друг
         </label>
         <button id="submit-btn">Отправить</button>
     </div>
 
     <script>
-        const guests = [
-            {"ID":1,"ИО гостя":"Нариман Турегалиевич","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":2,"ИО гостя":"Калияр Шадиярович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":3,"ИО гостя":"Мурат Рахметович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":4,"ИО гостя":"Нурдильда Серикулы","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":5,"ИО гостя":"Нуржан Сапаргельдиевич","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":6,"ИО гостя":"Жалгас Ахатович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":7,"ИО гостя":"Алдияр Сансызбаевич","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":8,"ИО гостя":"Арман Молдиярович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":9,"ИО гостя":"Серик Рыскалиевич","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":10,"ИО гостя":"Жанбулат Жаскайратович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":11,"ИО гостя":"Еркебулан Нуретдинович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":12,"ИО гостя":"Марат Махмудович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":13,"ИО гостя":"Нурлыбек Маратович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":14,"ИО гостя":"Тлек Ишбулатович","Unnamed: 2":"готово, QR не нужно"},
-            {"ID":15,"ИО гостя":"Ростислав Викторович","Unnamed: 2":null},
-            {"ID":16,"ИО гостя":"Андрей Владимирович","Unnamed: 2":null},
-            {"ID":17,"ИО гостя":"Саида Кенжебайкызы","Unnamed: 2":null},
-            {"ID":18,"ИО гостя":"Марко Марсили","Unnamed: 2":null},
-            {"ID":19,"ИО гостя":"Микола Алегро","Unnamed: 2":null},
-            {"ID":20,"ИО гостя":"Мухтар Наурызбаевич","Unnamed: 2":null},
-            {"ID":21,"ИО гостя":"Айгерим Тлеубергеновна","Unnamed: 2":null},
-            {"ID":22,"ИО гостя":"Шамшитов Бауржан","Unnamed: 2":null},
-            {"ID":23,"ИО гостя":"Избасарова Слушаш","Unnamed: 2":null},
-            {"ID":24,"ИО гостя":"Байгазиев Мурат","Unnamed: 2":null},
-            {"ID":25,"ИО гостя":"Арман Құланбайулы","Unnamed: 2":null},
-            {"ID":26,"ИО гостя":"Карло Детторе","Unnamed: 2":null},
-            {"ID":27,"ИО гостя":"Лука Пенсо","Unnamed: 2":null},
-            {"ID":28,"ИО гостя":"Дэвид Клейтон","Unnamed: 2":null},
-            {"ID":29,"ИО гостя":"Жаслан Кабибуллинович","Unnamed: 2":null},
-            {"ID":30,"ИО гостя":"Валерий Анатольевич","Unnamed: 2":null},
-            {"ID":31,"ИО гостя":"Анвар Агаярович","Unnamed: 2":null},
-            {"ID":32,"ИО гостя":"Аскар Серикович","Unnamed: 2":null},
-            {"ID":33,"ИО гостя":"Михаил Александрович","Unnamed: 2":null},
-            {"ID":34,"ИО гостя":"Азамат Ахметович","Unnamed: 2":null},
-            {"ID":35,"ИО гостя":"Тлеккабыл Мусирович","Unnamed: 2":null},
-            {"ID":36,"ИО гостя":"Мирбулат Куаншкалиевич","Unnamed: 2":null},
-            {"ID":37,"ИО гостя":"Асылбек Иманбаевич","Unnamed: 2":null},
-            {"ID":38,"ИО гостя":"Лаура Бериковна","Unnamed: 2":null},
-            {"ID":39,"ИО гостя":"Айгул Бактыгалиевна","Unnamed: 2":null},
-            {"ID":40,"ИО гостя":"Рауан Серикович","Unnamed: 2":null},
-            {"ID":41,"ИО гостя":"Асылбек Махсотович","Unnamed: 2":null},
-            {"ID":42,"ИО гостя":"Эрик Акежанович","Unnamed: 2":null},
-            {"ID":43,"ИО гостя":"Азиз Муратович","Unnamed: 2":null},
-            {"ID":44,"ИО гостя":"Жанбота Серикович","Unnamed: 2":null},
-            {"ID":45,"ИО гостя":"Бакытжан Ерболович","Unnamed: 2":null},
-            {"ID":46,"ИО гостя":"Мейрамбек Султанович","Unnamed: 2":null},
-            {"ID":47,"ИО гостя":"Ерлан Сагиевич","Unnamed: 2":null},
-            {"ID":48,"ИО гостя":"Азизбек Жарасович","Unnamed: 2":null},
-            {"ID":49,"ИО гостя":"Нуржан Серикович","Unnamed: 2":null},
-            {"ID":50,"ИО гостя":"Бауржан Азатович","Unnamed: 2":null}
-        ];
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const guestId = urlParams.get('id');  // Получаем ID из URL
 
-        let guestID = 1;
-        const guest = guests.find(g => g.ID === guestID);
-        document.getElementById('guest-name').innerText = guest ? guest['ИО гостя'] : 'Гость не найден';
+            // Загружаем список гостей из файла или базы данных
+            fetch('guests.json')  // Используйте правильный путь к файлу или API
+                .then(response => response.json())
+                .then(data => {
+                    const guest = data.find(g => g.id === guestId);
+                    if (guest) {
+                        document.getElementById('guest-name').textContent = guest.fullname;
+                    } else {
+                        alert('Гость не найден');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки данных гостей:', error);
+                });
 
-        document.getElementById('submit-btn').addEventListener('click', function() {
-            const guestName = document.getElementById('guest-name').innerText;
-            const isFriend = document.getElementById('friend-checkbox').checked;
-            
-            const data = {
-                id: guestID,
-                fullname: guestName,
-                status: isFriend ? 'Друг' : 'Гость'
-            };
-            
-            fetch('YOUR_WEB_APP_URL', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.text())
-            .then(result => {
-                console.log(result);
-            })
-            .catch(error => console.error('Ошибка:', error));
-        });
+            document.getElementById('submit-btn').addEventListener('click', () => {
+                const isFriend = document.getElementById('friend-checkbox').checked;
+                const status = isFriend ? 'Друг' : 'Пришел';
+
+                fetch('https://script.google.com/macros/s/AKfycbzL0dOMDEljNV7kjaMj08fojCTdyPfkjj6Cp_4lalq3K_L5Z3uXpLqchevJrDQ3IR6k/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: guestId, fullname: document.getElementById('guest-name').textContent, status })
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert('Данные отправлены: ' + data);
+                })
+                .catch(error => {
+                    alert('Ошибка отправки: ' + error.message);
+                });
+            });
+        }
     </script>
 </body>
 </html>
