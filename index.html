@@ -93,6 +93,7 @@
 <body>
     <div class="container">
         <h1>Добро пожаловать!</h1>
+        <input type="checkbox" id="guest-checkbox">
         <p id="guest-name"></p>
         <label>
             <input type="checkbox" id="friend-checkbox">
@@ -219,10 +220,12 @@
 
             document.getElementById('submit-btn').addEventListener('click', function() {
                 const isFriend = document.getElementById('friend-checkbox').checked;
+                const isGuest = document.getElementById('guest-checkbox').checked;
 
                 const data = {
                     id: guestID,
                     guestName: guest['ИО гостя'],
+                    isGuest: isGuest,
                     isFriend: isFriend
                 };
 
