@@ -218,12 +218,7 @@
     {"ID": 116, "ИО гостя": "Бэла Владимировна"}
             ];
 
-            const guest = guests.find(g => g.ID == guestID);
-
-            if (guest) {
-                document.getElementById('guest-name').textContent = guest['ИО гостя'];
-            }
-
+            document.getElementById('submit-btn').addEventListener('click', function() {
             const isFriend = document.getElementById('friend-checkbox').checked;
             const isGuest = document.getElementById('guest-checkbox').checked;
         
@@ -233,6 +228,7 @@
                 isGuest: isGuest ? 'Да' : 'Нет',
                 isFriend: isFriend ? 'Да' : 'Нет'
             };
+
 
                 fetch('https://script.google.com/macros/s/AKfycbxhUGwBXCfFOVwuml37T3Ii3AuYG1L46UmpexpGMmwFeEy5PYyq3VSsKlmHwflaKPQc/exec', { 
                     method: 'POST',
