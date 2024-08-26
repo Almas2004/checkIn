@@ -69,10 +69,6 @@
             width: 100%;
         }
 
-        .ff {
-            display: flex;
-        }
-
         .submit-button:hover {
             background-color: #333333;
         }
@@ -97,10 +93,7 @@
 <body>
     <div class="container">
         <h1>Добро пожаловать!</h1>
-<!--         <div class="ff"> -->
-
-            <p id="guest-name"></p>
-<!--         </div> -->
+        <p id="guest-name"></p>
         <label>
             <input type="checkbox" id="friend-checkbox">
             Друг
@@ -218,16 +211,22 @@
     {"ID": 116, "ИО гостя": "Бэла Владимировна"}
             ];
 
+            const guest = guests.find(g => g.ID == guestID);
+
+            if (guest) {
+                document.getElementById('guest-name').textContent = guest['ИО гостя'];
+            }
+
             document.getElementById('submit-btn').addEventListener('click', function() {
                 const isFriend = document.getElementById('friend-checkbox').checked;
 
                 const data = {
                     id: guestID,
                     guestName: guest['ИО гостя'],
-                    isFriend: isFriend,
+                    isFriend: isFriend
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbyUkqFNAFdyY6gjYC4Jx1gHreGl5nbyUg-yusibRx4jyk5hfABEpJjtpOnfDVmBaSRh/exec', { // Замените на URL вашего веб-приложения из Google Apps Script
+                fetch('https://script.google.com/macros/s/AKfycbyWIpl2Rs1yguKwlqLZ3AIX5E3Rv_KQf3HA_7Br4LkOP3MqZY-w0Am7_yZFobpYjk98/exec', { // Замените на URL вашего веб-приложения из Google Apps Script
                     method: 'POST',
                     body: JSON.stringify(data)
                 })
@@ -245,4 +244,3 @@
     </script>
 </body>
 </html>
-
