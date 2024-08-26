@@ -97,10 +97,10 @@
 <body>
     <div class="container">
         <h1>Добро пожаловать!</h1>
-        <div class="ff">
+<!--         <div class="ff"> -->
             <input type="checkbox" id="guest-checkbox">
             <p id="guest-name"></p>
-        </div>
+<!--         </div> -->
         <label>
             <input type="checkbox" id="friend-checkbox">
             Друг
@@ -224,18 +224,17 @@
                 document.getElementById('guest-name').textContent = guest['ИО гостя'];
             }
 
-            document.getElementById('submit-btn').addEventListener('click', function() {
-                const isFriend = document.getElementById('friend-checkbox').checked;
-                const isGuest = document.getElementById('guest-checkbox').checked;
+            const isFriend = document.getElementById('friend-checkbox').checked;
+            const isGuest = document.getElementById('guest-checkbox').checked;
+        
+            const data = {
+                id: guestID,
+                guestName: guest['ИО гостя'],
+                isGuest: isGuest ? 'Да' : 'Нет',
+                isFriend: isFriend ? 'Да' : 'Нет'
+            };
 
-                const data = {
-                    id: guestID,
-                    guestName: guest['ИО гостя'],
-                    isGuest: isGuest,
-                    isFriend: isFriend
-                };
-
-                fetch('https://script.google.com/macros/s/AKfycby7MGRwnqwDDyQkGLci6ZCCptkh7PvPgVbOmW2D1DPh7cZx1yUBLgaACYo0ClXW8CFh/exec', { // Замените на URL вашего веб-приложения из Google Apps Script
+                fetch('https://script.google.com/macros/s/AKfycbxhUGwBXCfFOVwuml37T3Ii3AuYG1L46UmpexpGMmwFeEy5PYyq3VSsKlmHwflaKPQc/exec', { 
                     method: 'POST',
                     body: JSON.stringify(data)
                 })
